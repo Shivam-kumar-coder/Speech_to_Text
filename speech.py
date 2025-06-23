@@ -1,6 +1,6 @@
 import streamlit as st  
 import speech_recognition as sr 
-from speech_recognition import pyaudio
+
 st.title("speech to text convertor ")
 
 #if st.button('speech to text convertor')
