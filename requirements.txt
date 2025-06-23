@@ -5,4 +5,4 @@ speechrecognition
 pandas 
 
 numpy
-pyaudio
+pyaudio 0.2.14
