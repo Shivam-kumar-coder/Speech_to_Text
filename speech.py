@@ -4,10 +4,10 @@ st.title("speech to text convertor ")
 
 #if st.button('speech to text convertor')
 recog=sr.Recognizer()
-mic=sr.Microphone()
+mica=sr.Microphone()
 ut=st.button("Start Now")
 if ut:
-    with mic as source:
+    with mica as source:
         st.info("Please Speak")
         audio=recog.listen(source)
         try:
