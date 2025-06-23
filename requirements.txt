@@ -1,2 +1,5 @@
 streamlit
+portaudio19-dev
+pipwin
+pyaudio
 SpeechRecognition
