@@ -1,20 +1,34 @@
-import streamlit as st  
-import speech_recognition as sr 
+import streamlit as st
+from streamlit_webrtc import webrtc_streamer, AudioProcessorBase
+import speech_recognition as sr
+import av
+import numpy as np
+import queue
 
-st.title("speech to text convertor ")
+st.title("🎤 Hosted Speech to Text Converter")
 
-#if st.button('speech to text convertor')
-recog=sr.Recognizer()
-mica=sr.Microphone()
-ut=st.button("Start Now")
-if ut:
-    with mica as source:
-        st.info("Please Speak")
-        audio=recog.listen(source)
-        try:
-            text=recog.recognize_google(audio)
-            st.success(f'Text is:{text}')
-        except:
-            st.error(" Error Plesase Try again")
-        finally:
-            st.write("processing complete")
+# Global queue to collect audio
+audio_queue = queue.Queue()
+
+# AudioProcessor class
+class AudioProcessor(AudioProcessorBase):
+    def recv(self, frame: av.AudioFrame) -> av.AudioFrame:
+        audio = frame.to_ndarray().flatten().astype(np.int16).tobytes()
+        audio_queue.put(audio)
+        return frame
+
+# Start mic recording
+webrtc_streamer(key="speech", audio_processor_factory=AudioProcessor)
+
+# Convert voice to text
+if st.button("Convert to Text"):
+    recognizer = sr.Recognizer()
+    try:
+        audio_data = b''.join(list(audio_queue.queue))
+        with sr.AudioFile(sr.AudioData(audio_data, 16000, 2)) as source:
+            audio = recognizer.record(source)
+            text = recognizer.recognize_google(audio)
+            st.success(f"Recognized Text: {text}")
+    except Exception as e:
+        st.error(f"Error: {e}")
+
