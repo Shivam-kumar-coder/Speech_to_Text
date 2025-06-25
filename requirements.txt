@@ -1,5 +1,6 @@
-streamlit 
-webrtc 
-SpeechRecognition
-
+streamlit
+streamlit-webrtc
+numpy
+speechrecognition
+av
 
