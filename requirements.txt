@@ -1,8 +1,5 @@
-streamlit
+streamlit 
+webrtc 
 SpeechRecognition
-pydub
-ffmpeg-python
-streamlit
-SpeechRecognition
-pyaudio
+
 
